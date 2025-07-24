@@ -17,8 +17,8 @@ public class UserConverter {
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .addressList(toAddressList(userDTO.getAddressDTOList()))
-                .phoneNumberList(toPhoneNumberList(userDTO.getPhoneNumberDTOList()))
+                .addressList(toAddressList(userDTO.getAddressList()))
+                .phoneNumberList(toPhoneNumberList(userDTO.getPhoneNumberList()))
                 .build();
     }
 
@@ -53,8 +53,8 @@ public class UserConverter {
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .addressDTOList(toAddressDTOList(user.getAddressList()))
-                .phoneNumberDTOList(toPhoneNumberDTOList(user.getPhoneNumberList()))
+                .addressList(toAddressDTOList(user.getAddressList()))
+                .phoneNumberList(toPhoneNumberDTOList(user.getPhoneNumberList()))
                 .build();
     }
 
