@@ -22,8 +22,8 @@ public class UserConverter {
                 .build();
     }
 
-    public List<Address> toAddressList(List<AddressDTO> addressDTOList){
-        return addressDTOList.stream().map(this::toAddress).toList();
+    public List<Address> toAddressList(List<AddressDTO> addressList){
+        return addressList.stream().map(this::toAddress).toList();
     }
 
     public Address toAddress(AddressDTO addressDTO){
@@ -37,8 +37,8 @@ public class UserConverter {
                 .build();
     }
 
-    public List<PhoneNumber> toPhoneNumberList(List<PhoneNumberDTO> phoneNumberDTOList){
-        return phoneNumberDTOList.stream().map(this::toPhoneNumber).toList();
+    public List<PhoneNumber> toPhoneNumberList(List<PhoneNumberDTO> phoneNumberList){
+        return phoneNumberList.stream().map(this::toPhoneNumber).toList();
     }
 
     public PhoneNumber toPhoneNumber(PhoneNumberDTO phoneNumberDTO){
