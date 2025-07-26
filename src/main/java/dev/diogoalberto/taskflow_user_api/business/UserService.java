@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -36,7 +34,7 @@ public class UserService {
 
     public UserDTO getUserByEmail(String email){
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFound("User with email diogo@123.com not found."));
+                .orElseThrow(() -> new ResourceNotFound("User with email " + email + " not found."));
         return userConverter.toUserDTO(user);
     }
 }
