@@ -4,6 +4,7 @@ import dev.diogoalberto.taskflow_user_api.business.converter.UserConverter;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
 import dev.diogoalberto.taskflow_user_api.infrastructure.entity.User;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ConflictException;
+import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFound;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,5 +30,15 @@ public class UserService {
         if(exists){
             throw new ConflictException("Email already registered: " + email);
         }
+    }
+
+    public UserDTO getUserByEmail(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFound("User with email " + email + " not found."));
+        return userConverter.toUserDTO(user);
+    }
+
+    public void deleteUserByEmail(String email){
+        userRepository.deleteByEmail(email);
     }
 }
