@@ -36,4 +36,10 @@ public class UserController {
 
         return "Bearer " + jwtUtil.generateToken(authentication.getName());
     }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email){
+        userService.deleteUserByEmail(email);
+        return ResponseEntity.ok().build();
+    }
 }

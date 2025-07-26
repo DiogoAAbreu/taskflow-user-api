@@ -37,4 +37,8 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFound("User with email " + email + " not found."));
         return userConverter.toUserDTO(user);
     }
+
+    public void deleteUserByEmail(String email){
+        userRepository.deleteByEmail(email);
+    }
 }
