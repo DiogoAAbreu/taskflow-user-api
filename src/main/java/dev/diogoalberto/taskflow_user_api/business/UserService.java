@@ -4,7 +4,7 @@ import dev.diogoalberto.taskflow_user_api.business.converter.UserConverter;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
 import dev.diogoalberto.taskflow_user_api.infrastructure.entity.User;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ConflictException;
-import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFound;
+import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFoundException;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.UserRepository;
 import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class UserService {
 
     public UserDTO getUserByEmail(String email){
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFound("User with email " + email + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + email + " not found."));
         return userConverter.toUserDTO(user);
     }
 
@@ -47,7 +47,7 @@ public class UserService {
     public UserDTO updateUser(String token, UserDTO userDTO){
         String email = jwtUtil.extractUsername(token.substring(7));
         User user = userRepository.findByEmail(email)
-                .orElseThrow(()->new ResourceNotFound("User with email " + email + " not found."));
+                .orElseThrow(()->new ResourceNotFoundException("User with email " + email + " not found."));
 
         if(userDTO.getPassword() != null){
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
