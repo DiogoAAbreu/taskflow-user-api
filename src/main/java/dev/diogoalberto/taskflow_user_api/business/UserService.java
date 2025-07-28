@@ -6,6 +6,7 @@ import dev.diogoalberto.taskflow_user_api.infrastructure.entity.User;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ConflictException;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFound;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.UserRepository;
+import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public UserDTO saveUser(UserDTO userDTO){
         emailExists(userDTO.getEmail());
@@ -40,5 +42,21 @@ public class UserService {
 
     public void deleteUserByEmail(String email){
         userRepository.deleteByEmail(email);
+    }
+
+    public UserDTO updateUser(String token, UserDTO userDTO){
+        String email = jwtUtil.extractUsername(token.substring(7));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()->new ResourceNotFound("User with email " + email + " not found."));
+
+        if(userDTO.getPassword() != null){
+            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        }
+
+        User updatedUser = userConverter.updateUser(userDTO, user);
+
+        return userConverter.toUserDTO(
+                userRepository.save(updatedUser)
+        );
     }
 }
