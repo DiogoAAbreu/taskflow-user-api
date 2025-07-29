@@ -1,10 +1,13 @@
 package dev.diogoalberto.taskflow_user_api.business;
 
 import dev.diogoalberto.taskflow_user_api.business.converter.UserConverter;
+import dev.diogoalberto.taskflow_user_api.business.dto.AddressDTO;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
+import dev.diogoalberto.taskflow_user_api.infrastructure.entity.Address;
 import dev.diogoalberto.taskflow_user_api.infrastructure.entity.User;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ConflictException;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFoundException;
+import dev.diogoalberto.taskflow_user_api.infrastructure.repository.AddressRepository;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.UserRepository;
 import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -58,5 +62,14 @@ public class UserService {
         return userConverter.toUserDTO(
                 userRepository.save(updatedUser)
         );
+    }
+
+    public AddressDTO updateAddress(Long id, AddressDTO addressDTO){
+        Address address = addressRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Address with ID " + id + "not found"));
+
+        Address updatedAddress = userConverter.updateAddress(addressDTO, address);
+
+        return userConverter.toAddressDTO(addressRepository.save(updatedAddress));
     }
 }
