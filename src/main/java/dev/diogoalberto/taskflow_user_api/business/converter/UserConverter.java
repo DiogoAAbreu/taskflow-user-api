@@ -64,6 +64,7 @@ public class UserConverter {
 
     public AddressDTO toAddressDTO(Address address){
         return AddressDTO.builder()
+                .id(address.getId())
                 .street(address.getStreet())
                 .number(address.getNumber())
                 .complement(address.getComplement())
@@ -92,6 +93,18 @@ public class UserConverter {
                 .email(userDTO.getEmail() != null ? userDTO.getEmail() : user.getEmail())
                 .addressList(user.getAddressList())
                 .phoneNumberList(user.getPhoneNumberList())
+                .build();
+    }
+
+    public Address updateAddress(AddressDTO addressDTO, Address address){
+        return Address.builder()
+                .id(address.getId())
+                .street(addressDTO.getStreet() != null ? addressDTO.getStreet() : address.getStreet())
+                .number(addressDTO.getNumber() != null ? addressDTO.getNumber() : address.getNumber())
+                .complement(addressDTO.getComplement() != null ? addressDTO.getComplement() : address.getComplement())
+                .city(addressDTO.getCity() != null ? addressDTO.getCity() : address.getCity())
+                .state(addressDTO.getState() != null ? addressDTO.getState() : address.getState())
+                .cep(addressDTO.getCep() != null ? addressDTO.getCep() : address.getCep())
                 .build();
     }
 }
