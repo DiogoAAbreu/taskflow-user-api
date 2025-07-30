@@ -2,12 +2,15 @@ package dev.diogoalberto.taskflow_user_api.business;
 
 import dev.diogoalberto.taskflow_user_api.business.converter.UserConverter;
 import dev.diogoalberto.taskflow_user_api.business.dto.AddressDTO;
+import dev.diogoalberto.taskflow_user_api.business.dto.PhoneNumberDTO;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
 import dev.diogoalberto.taskflow_user_api.infrastructure.entity.Address;
+import dev.diogoalberto.taskflow_user_api.infrastructure.entity.PhoneNumber;
 import dev.diogoalberto.taskflow_user_api.infrastructure.entity.User;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ConflictException;
 import dev.diogoalberto.taskflow_user_api.infrastructure.exception.ResourceNotFoundException;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.AddressRepository;
+import dev.diogoalberto.taskflow_user_api.infrastructure.repository.PhoneNumberRepository;
 import dev.diogoalberto.taskflow_user_api.infrastructure.repository.UserRepository;
 import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final PhoneNumberRepository phoneNumberRepository;
     private final UserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -71,5 +75,14 @@ public class UserService {
         Address updatedAddress = userConverter.updateAddress(addressDTO, address);
 
         return userConverter.toAddressDTO(addressRepository.save(updatedAddress));
+    }
+
+    public PhoneNumberDTO updatePhoneNumber(Long id, PhoneNumberDTO phoneNumberDTO){
+        PhoneNumber phoneNumber = phoneNumberRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Phone number with ID " + id + "not found"));
+
+        PhoneNumber updatedPhoneNumber = userConverter.updatePhoneNumber(phoneNumberDTO, phoneNumber);
+
+        return userConverter.toPhoneNumberDTO(phoneNumberRepository.save(updatedPhoneNumber));
     }
 }

@@ -2,6 +2,7 @@ package dev.diogoalberto.taskflow_user_api.controller;
 
 import dev.diogoalberto.taskflow_user_api.business.UserService;
 import dev.diogoalberto.taskflow_user_api.business.dto.AddressDTO;
+import dev.diogoalberto.taskflow_user_api.business.dto.PhoneNumberDTO;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
 import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,10 @@ public class UserController {
     @PutMapping("/address/{id}")
     public ResponseEntity<AddressDTO> updateAddress(@PathVariable Long id, @RequestBody AddressDTO addressDTO){
         return ResponseEntity.ok(userService.updateAddress(id, addressDTO));
+    }
+
+    @PutMapping("/phone-number/{id}")
+    public ResponseEntity<PhoneNumberDTO> updatePhoneNumber(@PathVariable Long id, @RequestBody PhoneNumberDTO phoneNumberDTO){
+        return ResponseEntity.ok(userService.updatePhoneNumber(id, phoneNumberDTO));
     }
 }

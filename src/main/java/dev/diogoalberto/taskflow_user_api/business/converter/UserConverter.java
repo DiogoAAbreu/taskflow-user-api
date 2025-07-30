@@ -80,6 +80,7 @@ public class UserConverter {
 
     public PhoneNumberDTO toPhoneNumberDTO(PhoneNumber phoneNumber){
         return PhoneNumberDTO.builder()
+                .id(phoneNumber.getId())
                 .phoneNumber(phoneNumber.getPhoneNumber())
                 .ddd(phoneNumber.getDdd())
                 .build();
@@ -105,6 +106,14 @@ public class UserConverter {
                 .city(addressDTO.getCity() != null ? addressDTO.getCity() : address.getCity())
                 .state(addressDTO.getState() != null ? addressDTO.getState() : address.getState())
                 .cep(addressDTO.getCep() != null ? addressDTO.getCep() : address.getCep())
+                .build();
+    }
+
+    public PhoneNumber updatePhoneNumber(PhoneNumberDTO phoneNumberDTO, PhoneNumber phoneNumber){
+        return PhoneNumber.builder()
+                .id(phoneNumber.getId())
+                .ddd(phoneNumberDTO.getDdd() != null ? phoneNumberDTO.getDdd() : phoneNumber.getDdd())
+                .phoneNumber(phoneNumberDTO.getPhoneNumber() != null ? phoneNumberDTO.getPhoneNumber() : phoneNumber.getPhoneNumber())
                 .build();
     }
 }
