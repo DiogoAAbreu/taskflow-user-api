@@ -126,6 +126,7 @@ public class UserConverter {
                 .city(addressDTO.getCity() != null ? addressDTO.getCity() : address.getCity())
                 .state(addressDTO.getState() != null ? addressDTO.getState() : address.getState())
                 .cep(addressDTO.getCep() != null ? addressDTO.getCep() : address.getCep())
+                .userId(address.getUserId())
                 .build();
     }
 
