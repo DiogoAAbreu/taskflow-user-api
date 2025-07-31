@@ -4,7 +4,6 @@ import dev.diogoalberto.taskflow_user_api.business.UserService;
 import dev.diogoalberto.taskflow_user_api.business.dto.AddressDTO;
 import dev.diogoalberto.taskflow_user_api.business.dto.PhoneNumberDTO;
 import dev.diogoalberto.taskflow_user_api.business.dto.UserDTO;
-import dev.diogoalberto.taskflow_user_api.infrastructure.entity.Address;
 import dev.diogoalberto.taskflow_user_api.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -65,5 +64,10 @@ public class UserController {
     @PostMapping("/address")
     public ResponseEntity<AddressDTO> saveAddress(@RequestHeader("Authorization") String token, @RequestBody AddressDTO addressDTO){
         return ResponseEntity.ok(userService.createAddress(token, addressDTO));
+    }
+
+    @PostMapping("/phone-number")
+    public ResponseEntity<PhoneNumberDTO> savePhoneNumber(@RequestHeader("Authorization") String token, @RequestBody PhoneNumberDTO phoneNumberDTO){
+        return ResponseEntity.ok(userService.createPhoneNumber(token, phoneNumberDTO));
     }
 }
