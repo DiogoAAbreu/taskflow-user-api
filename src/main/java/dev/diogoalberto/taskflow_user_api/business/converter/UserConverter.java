@@ -60,6 +60,14 @@ public class UserConverter {
                 .build();
     }
 
+    public PhoneNumber toPhoneNumber(PhoneNumberDTO phoneNumberDTO, Long userId){
+        return PhoneNumber.builder()
+                .phoneNumber(phoneNumberDTO.getPhoneNumber())
+                .ddd(phoneNumberDTO.getDdd())
+                .userId(userId)
+                .build();
+    }
+
     public UserDTO toUserDTO(User user){
         return UserDTO.builder()
                 .name(user.getName())

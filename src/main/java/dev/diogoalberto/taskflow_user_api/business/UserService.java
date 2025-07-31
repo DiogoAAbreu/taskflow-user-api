@@ -96,4 +96,15 @@ public class UserService {
 
         return userConverter.toAddressDTO(address);
     }
+
+    public PhoneNumberDTO createPhoneNumber(String token, PhoneNumberDTO phoneNumberDTO){
+        String email = jwtUtil.extractUsername(token.substring(7));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new ResourceNotFoundException("User with email " + email + " not found."));
+
+        PhoneNumber phoneNumber = userConverter.toPhoneNumber(phoneNumberDTO, user.getId());
+        phoneNumber = phoneNumberRepository.save(phoneNumber);
+
+        return userConverter.toPhoneNumberDTO(phoneNumber);
+    }
 }
