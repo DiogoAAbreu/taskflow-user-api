@@ -37,6 +37,18 @@ public class UserConverter {
                 .build();
     }
 
+    public Address toAddress(AddressDTO addressDTO, Long userId){
+        return Address.builder()
+                .street(addressDTO.getStreet())
+                .number(addressDTO.getNumber())
+                .complement(addressDTO.getComplement())
+                .city(addressDTO.getCity())
+                .state(addressDTO.getState())
+                .cep(addressDTO.getCep())
+                .userId(userId)
+                .build();
+    }
+
     public List<PhoneNumber> toPhoneNumberList(List<PhoneNumberDTO> phoneNumberList){
         return phoneNumberList.stream().map(this::toPhoneNumber).toList();
     }
